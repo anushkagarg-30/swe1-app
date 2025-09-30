@@ -51,10 +51,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
+def _resolve_sqlite_path():
+    env_name = os.environ.get('SQLITE_NAME')
+    if env_name:
+        return env_name
+    # On Elastic Beanstalk, the app dir is read-only at runtime. Use /tmp in production.
+    return str(BASE_DIR / 'db.sqlite3') if DEBUG else '/tmp/db.sqlite3'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.environ.get('SQLITE_NAME', str(BASE_DIR / 'db.sqlite3')),
+        'NAME': _resolve_sqlite_path(),
     }
 }
 
