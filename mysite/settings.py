@@ -55,8 +55,8 @@ def _resolve_sqlite_path():
     env_name = os.environ.get('SQLITE_NAME')
     if env_name:
         return env_name
-    # On Elastic Beanstalk, the app dir is read-only at runtime. Use /tmp in production.
-    return str(BASE_DIR / 'db.sqlite3') if DEBUG else '/tmp/db.sqlite3'
+    # On Elastic Beanstalk, use /var/app/current for writable SQLite in production
+    return str(BASE_DIR / 'db.sqlite3') if DEBUG else '/var/app/current/db.sqlite3'
 
 DATABASES = {
     'default': {
