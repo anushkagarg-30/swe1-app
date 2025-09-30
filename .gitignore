@@ -7,16 +7,27 @@ __pycache__/
 
 # Virtual env
 env/
+venv/
+.venv/
 
-# VSCode/Cursor
+# VSCode / Cursor
 .vscode/
 
 # Django
 db.sqlite3
 staticfiles/
 static/
+media/
 
-# Elastic Beanstalk Files
+# Elastic Beanstalk
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# AWS CLI leftovers
+aws/
+awscliv2.zip
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
