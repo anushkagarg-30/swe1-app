@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.http import HttpResponse
 
 urlpatterns = [
+    path("", lambda request: HttpResponse("Hello from Django on Elastic Beanstalk!")),  # root
     path("polls/", include("polls.urls")),
-    path('admin/', admin.site.urls),
+    path("admin/", include("django.contrib.admin.urls")),
 ]
