@@ -47,16 +47,14 @@ jobs:
       run: |
         coverage run --source='.' manage.py test
         coverage report
-        coverage xml
     
-    - name: Upload coverage to Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: coverage.xml
-        flag-name: run-${{ github.run_number }}
-        parallel: true
-        fail_ci_if_error: true
+    # - name: Upload coverage to Coveralls
+    #   uses: coverallsapp/github-action@master
+    #   with:
+    #     github-token: ${{ secrets.GITHUB_TOKEN }}
+    #     flag-name: run-${{ github.run_number }}
+    #     parallel: true
+    #     fail_ci_if_error: true
 
   deploy:
     needs: test
