@@ -31,22 +31,28 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
+    - name: Verify installations
+      run: |
+        python -c "import black; print('black installed')"
+        python -c "import flake8; print('flake8 installed')"
+        python -c "import coverage; print('coverage installed')"
+    
     - name: Run tests
       run: |
         python manage.py test
     
     - name: Check code formatting with black
       run: |
-        black --check .
+        python -m black --check .
     
     - name: Run flake8 linter
       run: |
-        flake8 .
+        python -m flake8 .
     
     - name: Run coverage analysis
       run: |
-        coverage run --source='.' manage.py test
-        coverage report
+        python -m coverage run --source='.' manage.py test
+        python -m coverage report
     
     # - name: Upload coverage to Coveralls
     #   uses: coverallsapp/github-action@master
