@@ -37,9 +37,17 @@ jobs:
         python -c "import flake8; print('flake8 installed')"
         python -c "import coverage; print('coverage installed')"
     
+    - name: Check Django setup
+      run: |
+        python manage.py check
+    
+    - name: Run migrations
+      run: |
+        python manage.py migrate
+    
     - name: Run tests
       run: |
-        python manage.py test
+        python manage.py test --verbosity=2
     
     # - name: Upload coverage to Coveralls
     #   uses: coverallsapp/github-action@master
