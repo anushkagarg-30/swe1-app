@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/anushkagarg-30/swe1-app.svg?branch=main)](https://travis-ci.com/anushkagarg-30/swe1-app)
 [![Coverage Status](https://coveralls.io/repos/github/anushkagarg-30/swe1-app/badge.svg?branch=main)](https://coveralls.io/github/anushkagarg-30/swe1-app?branch=main)
 
-This is a simple Django application built by **Anushka Garg** as part of SWE1 coursework with CI/CD pipeline.  
+This is a simple Django application built by **Anushka Garg** as part of SWE1 coursework with CI/CD pipeline setup.  
 It follows the official [Django Tutorial Parts 1–4](https://docs.djangoproject.com/en/5.2/intro/tutorial01/) and is deployed to AWS Elastic Beanstalk.
 
 ---
