@@ -31,7 +31,7 @@ deploy:
   region: us-east-1
   app: swe1-app
   env: swe1-env2
-  bucket_name: elasticbeanstalk-us-east-1-123456789012
+  # bucket_name: elasticbeanstalk-us-east-1-123456789012  # Commented out - let Travis auto-detect
   on:
     branch: deployment
     condition: $TRAVIS_PYTHON_VERSION = "3.11"
