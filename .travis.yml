@@ -7,22 +7,24 @@ cache: pip
 
 # Install dependencies
 install:
+  - pip install --upgrade pip
   - pip install -r requirements.txt
 
 # Run tests and code quality checks
 script:
-  # Run Django tests
-  - python manage.py test
-  
-  # Check code formatting with black
+  # Lint and formatting checks first
   - black --check .
-  
-  # Run flake8 linter
   - flake8 .
-  
-  # Run coverage analysis
-  - coverage run --source='.' manage.py test
+
+  # Django system checks and migrations
+  - python manage.py check
+  - python manage.py migrate --noinput
+
+  # Run tests with coverage
+  - coverage run --source='.' manage.py test --verbosity=2
   - coverage report
+
+after_success:
   - coveralls
 
 # Deploy to AWS Elastic Beanstalk on successful build
@@ -33,7 +35,7 @@ deploy:
   env: swe1-env2
   # bucket_name: elasticbeanstalk-us-east-1-123456789012  # Commented out - let Travis auto-detect
   on:
-    branch: deployment
+    branch: main
     condition: $TRAVIS_PYTHON_VERSION = "3.11"
 
 # Environment variables (you'll need to set these in Travis CI settings)

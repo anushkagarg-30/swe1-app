@@ -1,6 +1,6 @@
 # SWE1 Polls App
 
-[![CI/CD Pipeline](https://github.com/anushkagarg-30/swe1-app/actions/workflows/ci.yml/badge.svg)](https://github.com/anushkagarg-30/swe1-app/actions/workflows/ci.yml)
+[![Build Status](https://app.travis-ci.com/anushkagarg-30/swe1-app.svg?branch=main)](https://app.travis-ci.com/github/anushkagarg-30/swe1-app)
 [![Coverage Status](https://coveralls.io/repos/github/anushkagarg-30/swe1-app/badge.svg?branch=main)](https://coveralls.io/github/anushkagarg-30/swe1-app?branch=main)
 
 This is a simple Django application built by **Anushka Garg** as part of SWE1 coursework with CI/CD pipeline setup.  
