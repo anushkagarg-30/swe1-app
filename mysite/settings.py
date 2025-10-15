@@ -5,8 +5,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-a7#o$=pqb)i^el^uc(7*^c)62t5$oc-28ys!f&dipig8su*-8j'
 
-# ⚠️ For production, set DEBUG=False
-DEBUG = False  
+# ⚠️ For production, set DEBUG=False. Allow local override via env.
+DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
 
 # ✅ Allow AWS Elastic Beanstalk + local
 ALLOWED_HOSTS = ['.elasticbeanstalk.com', '127.0.0.1', 'localhost']
@@ -51,10 +51,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
+def _resolve_sqlite_path():
+    env_name = os.environ.get('SQLITE_NAME')
+    if env_name:
+        return env_name
+    # On Elastic Beanstalk, the app dir is read-only at runtime. Use /tmp in production.
+    return str(BASE_DIR / 'db.sqlite3') if DEBUG else '/tmp/db.sqlite3'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': _resolve_sqlite_path(),
     }
 }
 

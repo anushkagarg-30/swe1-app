@@ -11,7 +11,7 @@ It follows the official [Django Tutorial Parts 1–4](https://docs.djangoproject
 ## 🔗 Live Links
 
 - **GitHub Repository**: [https://github.com/anushkagarg-30/swe1-app](https://github.com/anushkagarg-30/swe1-app)
-- **Deployed Application**: [http://swe1-env2.eba-drmmxqzf.us-east-1.elasticbeanstalk.com/polls/](http://swe1-env2.eba-drmmxqzf.us-east-1.elasticbeanstalk.com/polls/)
+- **Deployed Application**: [http://swe1-env2.eba-drmmxqzf.us-east-1.elasticbeanstalk.com/polls]
 
 ---
 
