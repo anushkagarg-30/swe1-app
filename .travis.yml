@@ -1,17 +1,29 @@
 language: python
 python:
-  - "3.9"
+  - "3.12"
 
 install:
   - pip install --upgrade pip
   - pip install -r requirements.txt
-  - pip install flake8 coverage
+  - pip install black flake8 coverage coveralls
 
 script:
+  - black --check .
   - flake8 .
-  - coverage run manage.py test
+  - coverage run --source='.' manage.py test
   - coverage report
 
-# branches:
-#   only:
-#     - travis-ci-setup
+after_success:
+  - coveralls
+
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  region: "us-east-1"
+  app: "swe1-app"
+  env: "swe1-app-dev"
+  bucket_name: "elasticbeanstalk-us-east-1-697227439688"
+  on:
+    branch: main
+  skip_cleanup: true
