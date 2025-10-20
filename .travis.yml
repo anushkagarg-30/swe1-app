@@ -12,6 +12,6 @@ script:
   - coverage run manage.py test
   - coverage report
 
-branches:
-  only:
-    - travis-ci-setup
+# branches:
+#   only:
+#     - travis-ci-setup
