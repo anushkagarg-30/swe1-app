@@ -1,26 +1,20 @@
 [run]
 source = .
-omit = 
+omit =
     */migrations/*
+    */tests.py
+    manage.py
+    setup.py
     */venv/*
     */env/*
-    */staticfiles/*
-    */media/*
-    manage.py
-    */settings.py
-    */wsgi.py
-    */asgi.py
-    */__init__.py
+    */__pycache__/*
 
 [report]
 exclude_lines =
     pragma: no cover
     def __repr__
-    if self.debug:
-    if settings.DEBUG
     raise AssertionError
     raise NotImplementedError
-    if 0:
     if __name__ == .__main__.:
     class .*\bProtocol\):
     @(abc\.)?abstractmethod
