@@ -1,3 +1,4 @@
-from django.contrib import admin
+"""Admin site configuration for the polls app.
 
-# Register your models here.
+This file intentionally avoids importing admin until models are registered.
+"""

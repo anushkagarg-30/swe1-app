@@ -1,45 +1,55 @@
 language: python
 python:
-  - "3.11"
+  - "3.9"
 
-# Cache pip dependencies
-cache: pip
+services:
+  - postgresql
 
-# Install dependencies
-install:
+env:
+  global:
+    - DATABASE_URL=postgres://postgres:@localhost/travis_ci_test
+
+before_install:
   - pip install --upgrade pip
+
+install:
   - pip install -r requirements.txt
+  - pip install black flake8 coverage coveralls
 
-# Run tests and code quality checks
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+
 script:
-  # Lint and formatting checks first
+  # Check code formatting with black
   - black --check .
+  
+  # Run flake8 linter
   - flake8 .
-
-  # Django system checks and migrations
-  - python manage.py check
-  - python manage.py migrate --noinput
-
+  
   # Run tests with coverage
-  - coverage run --source='.' manage.py test --verbosity=2
+  - coverage run --source='.' manage.py test
+  
+  # Generate coverage report
   - coverage report
 
 after_success:
+  # Send coverage data to coveralls
   - coveralls
 
-# Deploy to AWS Elastic Beanstalk on successful build
 deploy:
   provider: elasticbeanstalk
-  region: us-east-1
-  app: swe1-app
-  env: swe1-env2
-  # bucket_name: elasticbeanstalk-us-east-1-123456789012  # Commented out - let Travis auto-detect
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  region: "us-east-1"
+  app: "swe1-app"
+  env: "swe1-env2"
+  bucket_name: "elasticbeanstalk-us-east-1-your-bucket"
+  bucket_path: "swe1-app"
   on:
-    branch: main
-    condition: $TRAVIS_PYTHON_VERSION = "3.11"
+    branch: travis-ci-setup  # Deploy from this branch
+  skip_cleanup: true
 
-# Environment variables (you'll need to set these in Travis CI settings)
-env:
-  global:
-    - DJANGO_DEBUG=0
-    - SQLITE_NAME=/tmp/db.sqlite3
+notifications:
+  email:
+    on_success: change
+    on_failure: always
