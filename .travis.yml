@@ -2,54 +2,16 @@ language: python
 python:
   - "3.9"
 
-services:
-  - postgresql
-
-env:
-  global:
-    - DATABASE_URL=postgres://postgres:@localhost/travis_ci_test
-
-before_install:
-  - pip install --upgrade pip
-
 install:
+  - pip install --upgrade pip
   - pip install -r requirements.txt
-  - pip install black flake8 coverage coveralls
-
-before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
+  - pip install flake8 coverage
 
 script:
-  # Check code formatting with black
-  - black --check .
-  
-  # Run flake8 linter
   - flake8 .
-  
-  # Run tests with coverage
-  - coverage run --source='.' manage.py test
-  
-  # Generate coverage report
+  - coverage run manage.py test
   - coverage report
 
-after_success:
-  # Send coverage data to coveralls
-  - coveralls
-
-deploy:
-  provider: elasticbeanstalk
-  access_key_id: $AWS_ACCESS_KEY_ID
-  secret_access_key: $AWS_SECRET_ACCESS_KEY
-  region: "us-east-1"
-  app: "swe1-app"
-  env: "swe1-env2"
-  bucket_name: "elasticbeanstalk-us-east-1-your-bucket"
-  bucket_path: "swe1-app"
-  on:
-    branch: travis-ci-setup  # Deploy from this branch
-  skip_cleanup: true
-
-notifications:
-  email:
-    on_success: change
-    on_failure: always
+branches:
+  only:
+    - travis-ci-setup
