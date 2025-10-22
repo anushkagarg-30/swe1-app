@@ -1,29 +1,46 @@
 language: python
 python:
-  - "3.12"
+  - "3.11"
 
+# Cache pip dependencies
+cache: pip
+
+# Install dependencies
 install:
   - pip install --upgrade pip
   - pip install -r requirements.txt
-  - pip install black flake8 coverage coveralls
 
+# Run tests and code quality checks
 script:
+  # Lint and formatting checks first
   - black --check .
   - flake8 .
-  - coverage run --source='.' manage.py test
+
+  # Django system checks and migrations
+  - python manage.py check
+  - python manage.py migrate --noinput
+
+  # Run tests with coverage
+  - coverage run --source='.' manage.py test --verbosity=2
   - coverage report
 
 after_success:
   - coveralls
 
+# Deploy to AWS Elastic Beanstalk on successful build
 deploy:
   provider: elasticbeanstalk
   access_key_id: $AWS_ACCESS_KEY_ID
   secret_access_key: $AWS_SECRET_ACCESS_KEY
-  region: "us-east-1"
-  app: "swe1-app"
-  env: "swe1-app-dev"
-  bucket_name: "elasticbeanstalk-us-east-1-697227439688"
+  region: us-east-1
+  app: swe1-app
+  env: swe1-env2
   on:
     branch: main
-  skip_cleanup: true
+    condition: $TRAVIS_PYTHON_VERSION = "3.11"
+
+# Environment variables (you'll need to set these in Travis CI settings)
+env:
+  global:
+    - DJANGO_DEBUG=0
+    - SQLITE_NAME=/tmp/db.sqlite3
