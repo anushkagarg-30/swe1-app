@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.11"
+  - "3.12"
 
 # Cache pip dependencies
 cache: pip
@@ -9,6 +9,7 @@ cache: pip
 install:
   - pip install --upgrade pip
   - pip install -r requirements.txt
+  - pip install black flake8 coverage coveralls
 
 # Run tests and code quality checks
 script:
@@ -37,7 +38,7 @@ deploy:
   env: swe1-env2
   on:
     branch: main
-    condition: $TRAVIS_PYTHON_VERSION = "3.11"
+    condition: $TRAVIS_PYTHON_VERSION = "3.12"
 
 # Environment variables (you'll need to set these in Travis CI settings)
 env:
